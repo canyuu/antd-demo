@@ -1,12 +1,12 @@
 import './App.less';
 import React from 'react';
-import {RadioGroup} from './component/RadioGroup';
+import SpanColRowTable from './component/Table/SpanColRowTable';
 
 
 const App = () => {
   return (
     <>
-      <RadioGroup/>
+      <SpanColRowTable/>
     </>
   );
 };

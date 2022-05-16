@@ -1,13 +1,5 @@
 import {Table} from 'antd';
-import React from 'react';// react核心库
-
-// In the fifth row, other columns are merged into first column
-// by setting it's colSpan to be 0
-const sharedOnCell = (_, index) => {
-  if (index === 4) {
-    return {colSpan: 0};
-  }
-};
+import React, {useCallback} from 'react';// react核心库
 
 const columns = [
   {
@@ -15,45 +7,32 @@ const columns = [
     dataIndex: 'name',
     render: (text, row, index) => <a>{text}</a>,
 
-    onCell: (_, index) => ({
-      // 加括号的函数体返回对象字面量表达式：
-      // params => ({foo: bar})
-      colSpan: index < 4 ? 1 : 5,
-    }),
   },
   {
     title: 'Age',
     dataIndex: 'age',
-    onCell: sharedOnCell,
+    render: (text, record) => {
+      return {
+        children: text,
+        props: {
+          rowSpan: record.rowSpan,
+        },
+      };
+    },
   },
   {
     title: 'Home phone',
     colSpan: 2,
     dataIndex: 'tel',
-    onCell: (_, index) => {
-      console.log(_, index);
-      if (index === 2) {
-        return {rowSpan: 2};
-      }
-      // These two are merged into above cell
-      if (index === 3) {
-        return {rowSpan: 0};
-      }
-      if (index === 4) {
-        return {colSpan: 0};
-      }
-    },
   },
   {
     title: 'Phone',
     colSpan: 0,
     dataIndex: 'phone',
-    onCell: sharedOnCell,
   },
   {
     title: 'Address',
     dataIndex: 'address',
-    onCell: sharedOnCell,
   },
 ];
 
@@ -99,7 +78,34 @@ const dataSource = [
     address: 'Dublin No. 2 Lake Park',
   },
 ];
+
+const handleDataSource = useCallback((data, key) => {
+  return data
+      .reduce((result, item) => {
+        // 首先将key字段作为新数组result取出
+        if (result.indexOf(item[key]) < 0) {
+          result.push(item[key]);
+        }
+        return result;
+      }, [])
+      .reduce((result, value, rowNum) => {
+        // 将key相同的数据作为新数组取出，并在其内部添加新字段**rowSpan**
+        const children = data.filter((item) => item[key] === value);
+        result = result.concat(
+            children.map((item, index) => ({
+              ...item,
+              rowSpan: index === 0 ? children.length : 0, // 将第一行数据添加rowSpan字段
+              rowNum: rowNum + 1,
+            })),
+        );
+        return result;
+      }, []);
+}, []);
+
 const SpanColRowTable = () => {
-  return (<Table columns={columns} dataSource={dataSource} bordered/>);
+  return (<Table
+    columns={columns}
+    dataSource={handleDataSource(dataSource, 'age')}
+    bordered/>);
 };
 export default SpanColRowTable;
