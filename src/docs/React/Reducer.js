@@ -1,10 +1,10 @@
 import React, {useReducer} from 'react';
 import PropTypes from 'prop-types';
 
-/**
- * 补充文档 useReduce 和 useState 应用场景
- * https://zhuanlan.zhihu.com/p/69622832
- */
+/*
+补充文档 useReduce 和 useState 应用场景
+https://zhuanlan.zhihu.com/p/69622832
+* */
 function init(initialCount = 0) {
   return {count: initialCount};
 }
