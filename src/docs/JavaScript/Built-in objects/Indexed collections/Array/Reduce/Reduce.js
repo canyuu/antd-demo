@@ -5,6 +5,14 @@
  */
 
 /**
+ * const newArray = array.reduce(callbackFn, initialValue)
+ *
+ * callbackFn:
+ * (previousValue,currentValue,currentIndex,array)=>{
+ *     return xxx
+ * }
+ *
+ * 一个 “reducer” 函数，包含四个参数：
  * previousValue：上一次调用 callbackFn 时的返回值。
  * 在第一次调用时，若指定了初始值 initialValue，其值则为 initialValue，否则为数组索引为 0 的元素 array[0]。
  * currentValue：数组中正在处理的元素。
@@ -244,3 +252,36 @@ if (!Array.prototype.mapUsingReduce) {
   currentValue + currentIndex + array.length
 ) // [5, 7, , 10]
 * */
+
+// function sum(a, b) {
+//   return a + b;
+// }
+
+// function toUpper(str) {
+//   return str.toUpperCase();
+// }
+
+// function add(str) {
+//   return '****' + str + '****';
+// }
+
+// function compose(...fns) {
+//   return function(...args) {
+//     const lastFn = fns.pop();
+//     return fns.reduceRight((a, b) => {
+//       return b(a);
+//     }, lastFn(...args));
+//   };
+// }
+
+// function compose(...fns) {
+//   return fns.reduce((a, b)=>{
+//     return (...args)=>{
+//       return a(b(...args));
+//     };
+//   });
+// }
+
+// const compose = (...fns) => fns.reduce((a, b) => (...args) => a(b(...args)));
+// const r = compose(add, toUpper, sum)('hello', 'world');
+// console.log(r);
