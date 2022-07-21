@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import actions from '../../actions/counter1';
-import store from '../../store';
+import actions from '../../../actions/counter1';
+import store from '../../../store';
 const boundActions = bindActionCreators(actions, store.dispatch);
 import {connect} from 'react-redux';
 

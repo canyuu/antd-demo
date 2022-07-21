@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import actions from '../../actions/counter2';
-import store from '../../store';
+import actions from '../../../actions/counter2';
+import store from '../../../store';
 
 const boundActions = bindActionCreators(actions, store.dispatch);
 class Counter2 extends Component {
